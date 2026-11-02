@@ -1,15 +1,19 @@
 const nums = [1, 2, 3, 4, 5], target = 9;
 
 
-const sumsHash = {}, plainHash = {};
+const sumsHash = {};
 
 nums.forEach((n1, index1) => {
-    plainHash[n1] = true;
+
     nums.forEach((n2, index2) => {
 
         if (index1 === index2) return;
+        if (!sumsHash[n1 + n2])
+            sumsHash[n1 + n2] = [{ n1, n2, index1, index2 }]
+        else {
+            sumsHash[n1 + n2].push({ n1, n2, index1, index2 })
+        }
 
-        sumsHash[n1 + n2] = { n1, n2, index1, index2 }
     })
 })
 
@@ -19,10 +23,15 @@ const result = nums.map((n, index) => {
     const diff = target - n;
     const sumHash = sumsHash[diff];
 
-    if (plainHash[diff]) {
-        return [n, diff];
-    } else if (sumHash && index !== sumHash.index1 && index !== sumHash.index2) {
-        return [n, sumsHash[diff].n1, sumsHash[diff].n2];
+    if (!sumHash)
+        return
+
+
+    for (const s of sumHash) {
+        console.log(s);
+
+        if (index !== s.index1 && index !== s.index2)
+            return [n, s.n1, s.n2];
     }
 
 
