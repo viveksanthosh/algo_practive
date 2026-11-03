@@ -1,6 +1,3 @@
-
-
-
 const logger = (...a) => console.log(...a)
 
 
@@ -12,12 +9,20 @@ function swapNumbers(nums, zeroIndex, numberIndex) {
     return nums
 }
 
+function getFirstZeroInRange(nums, start, end) {
+    console.log('start', start, 'end', end);
+
+    for (let i = start; i < end; i++) {
+        if (nums[i] === 0)
+            return i
+    }
+    return end
+}
+
 
 
 function reArrange(nums) {
-
     let firstZeroIndex = nums.findIndex(n => n === 0)
-
 
     if (firstZeroIndex === -1)
         return nums;
@@ -26,21 +31,21 @@ function reArrange(nums) {
         const n = nums[i];
         console.log('firstZeroIndex', firstZeroIndex, 'i', i);
 
-        if(i < firstZeroIndex){
+        if (i < firstZeroIndex) {
             console.log('here');
-            
+
         }
         if (n === 0)
             continue;
 
         console.log(nums.join(' | '));
-        
+
 
         if (firstZeroIndex < i) {
             console.log('swap');
-            
+
             swapNumbers(nums, firstZeroIndex, i);
-            firstZeroIndex = nums.findIndex(n => n === 0)
+            firstZeroIndex = getFirstZeroInRange(nums, firstZeroIndex, i)
         }
 
     }
